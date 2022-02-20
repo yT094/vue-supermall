@@ -15,11 +15,20 @@
     components: {
       NavBar
     },
+    data() {
+      return {
+        banners: [],
+        recommends: []
+      }
+    },
     // 组件创建完成就发送网络请求
     created() {
-      // 1.请求多个数据
+      // 1.请求多个数据（这是一个异步操作）
       getHomeMultidata().then( res => {
-        console.log(res);
+        // console.log(res);
+        // this.result = res;
+        this.banners = res.data.banner.list;
+        this.recommends = res.data.recommend.list;
       })
     }
   }
