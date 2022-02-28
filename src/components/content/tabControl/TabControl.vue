@@ -11,6 +11,7 @@
 <script>
   export default {
     name: "TabControl",
+    // 接收外部数据
     props: {
       titles: {
         type: Array,
@@ -29,7 +30,8 @@
       // 监听 item 的点击
       itemClick(index) {
         this.currentIndex = index;
-        this.$emit('itemClick', index)
+        // 将内部数据传到外面去
+        this.$emit('tabClick', index)
       }
     }
   }
