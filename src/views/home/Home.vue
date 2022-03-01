@@ -1,15 +1,14 @@
 <template>
   <div id="home" class="wrapper">
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
-    <scroll class="content">
+    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
       <home-swiper :banners="banners"/>
       <recommend-view :recommends="recommends"/>
       <feature-view/>
       <tab-control class="tab-control" :titles="['流行', '新款', '精选']" @tabClick="tabClick"/>
       <goods-list :goods="showGoods"/>
     </scroll>
-
-
+    <back-top @click.native="backClick" v-show="isShowBackTop"/>
   </div>
 </template>
 
@@ -22,6 +21,7 @@
   import TabControl from "components/content/tabControl/TabControl"
   import GoodsList from "components/content/goods/GoodsList"
   import Scroll from "components/common/scroll/Scroll"
+  import BackTop from "components/content/backTop/BackTop"
 
   import { getHomeMultidata, getHomeGoods } from "network/home"
 
@@ -34,7 +34,8 @@
       NavBar,
       TabControl,
       GoodsList,
-      Scroll
+      Scroll,
+      BackTop
     },
 
     data() {
@@ -47,7 +48,8 @@
           'sell': { page: 0, list: [] },
         },
         // 缺少该变量，再 showGoods 中会报 list 无法读取的错误
-        currentType: 'pop'
+        currentType: 'pop',
+        isShowBackTop: true,
       }
     },
     
@@ -87,7 +89,14 @@
             break;
         }
       },
-
+      backClick() {
+        // 对 scroll 这个组件，调用其方法
+        this.$refs.scroll.scrollTo(0, 0)
+      },
+      contentScroll(position) {
+        // console.log(position);
+        this.isShowBackTop = (-position.y) > 1000
+      },
       /**
        * 网络请求相关的方法
        */
