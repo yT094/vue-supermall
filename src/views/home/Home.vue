@@ -133,6 +133,7 @@
           this.goods[type].list.push(...res.data.list)
           // 页码加 1
           this.goods[type].page += 1
+          // 完成上拉加载更多
           this.$refs.scroll.finishPullUp()
         })
       }
