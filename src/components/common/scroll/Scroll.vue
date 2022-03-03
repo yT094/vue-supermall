@@ -47,16 +47,19 @@
         // console.log('上拉加载更多');
         this.$emit('pullingUp')
       })
+
+      //打印 Scroll 对象
+      // console.log(this.scrolll);
     },
     methods: {
       scrollTo(x, y, time=300) {
-        this.scroll.scrollTo(x, y, time)
+        this.scroll && this.scroll.scrollTo(x, y, time)
       },
       finishPullUp() {
         this.scroll.finishPullUp()
       },
       refresh() {
-        this.scroll.refresh()
+        this.scroll && this.scroll.refresh()
       }
     }
   }

@@ -64,8 +64,8 @@
       }
     },
 
-    // 组件创建完成就发送网络请求
     created() {
+      // 组件创建完成就发送网络请求
       // 1.请求多个数据（这是一个异步操作）
       this.getHomeMultidata()
     
@@ -76,7 +76,6 @@
 
       // 3.监听item中图片加载完成
       this.$bus.$on('itemImageLoad', () => {
-        // console.log('----------')
         this.$refs.scroll.refresh()
       })
     },
