@@ -1,7 +1,12 @@
 <template>
   <div id="home" class="wrapper">
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
-    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
+    <scroll class="content" 
+            ref="scroll" 
+            :probe-type="3" 
+            @scroll="contentScroll"
+            :pull-up-load="true"
+            @pullingUp="loadMore">
       <home-swiper :banners="banners"/>
       <recommend-view :recommends="recommends"/>
       <feature-view/>
@@ -68,6 +73,12 @@
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
+
+      // 3.监听item中图片加载完成
+      this.$bus.$on('itemImageLoad', () => {
+        // console.log('----------')
+        this.$refs.scroll.refresh()
+      })
     },
 
     methods: {
@@ -97,6 +108,10 @@
         // console.log(position);
         this.isShowBackTop = (-position.y) > 1000
       },
+      loadMore() {
+        // console.log('上拉加载更多-Home');
+        this.getHomeGoods(this.currentType)
+      },
       /**
        * 网络请求相关的方法
        */
@@ -115,6 +130,7 @@
           this.goods[type].list.push(...res.data.list)
           // 页码加 1
           this.goods[type].page += 1
+          this.$refs.scroll.finishPullUp()
         })
       }
     }
