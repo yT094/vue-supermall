@@ -64,6 +64,7 @@
         isShowBackTop: true,
         tabOffsetTop: 0,
         isTabFixed: false,
+        saveY: 0,
       }
     },
     
@@ -71,6 +72,20 @@
       showGoods() {
         return this.goods[this.currentType].list
       }
+    },
+    
+    destroyed() {
+      // console.log('home destroyed');
+    },
+
+    // 进来时调用
+    activated() {
+      this.$refs.scroll.scrollTo(0, this.saveY, 0)
+    },
+    
+    // 离开时调用
+    deactivated() {
+      this.saveY = this.$refs.scroll.getScrollY()
     },
 
     created() {
