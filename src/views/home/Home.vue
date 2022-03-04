@@ -1,16 +1,22 @@
 <template>
   <div id="home" class="wrapper">
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
+    <tab-control :titles="['流行', '新款', '精选']" 
+                  @tabClick="tabClick" 
+                  ref="tabControl1"
+                  class="tab-control" v-show="isTabFixed"/>    
     <scroll class="content" 
             ref="scroll" 
             :probe-type="3" 
             @scroll="contentScroll"
             :pull-up-load="true"
             @pullingUp="loadMore">
-      <home-swiper :banners="banners"/>
+      <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad" />
       <recommend-view :recommends="recommends"/>
       <feature-view/>
-      <tab-control class="tab-control" :titles="['流行', '新款', '精选']" @tabClick="tabClick"/>
+      <tab-control :titles="['流行', '新款', '精选']" 
+                    @tabClick="tabClick" 
+                    ref="tabControl2"/>
       <goods-list :goods="showGoods"/>
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"/>
@@ -56,6 +62,8 @@
         // 缺少该变量，再 showGoods 中会报 list 无法读取的错误
         currentType: 'pop',
         isShowBackTop: true,
+        tabOffsetTop: 0,
+        isTabFixed: false,
       }
     },
     
@@ -102,19 +110,29 @@
           default:
             break;
         }
+        this.$refs.tabControl1.currentIndex = index;
+        this.$refs.tabControl2.currentIndex = index;
       },
       backClick() {
         // 对 scroll 这个组件，调用其方法
         this.$refs.scroll.scrollTo(0, 0)
       },
       contentScroll(position) {
-        // console.log(position);
+        // 1. 判断 BackTop 是否显示
         this.isShowBackTop = (-position.y) > 1000
+
+        // 2. 决定 tabControl 是否吸顶 (position: fixed)
+        this.isTabFixed = (-position.y) > this.tabOffsetTop
       },
       loadMore() {
         // console.log('上拉加载更多-Home');
         this.getHomeGoods(this.currentType)
       },
+      swiperImageLoad() {
+        // 所有的组件都有一个属性 $el；用于获取组件中的元素
+        this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop
+      },
+
       /**
        * 网络请求相关的方法
        */
@@ -160,10 +178,8 @@
     z-index: 9;
   }
 
-  /* 吸顶效果  */
   .tab-control {
-    position: sticky;
-    top: 44px;
+    position: relative;
     z-index: 9;
   }
 
