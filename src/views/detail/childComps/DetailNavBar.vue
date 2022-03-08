@@ -54,6 +54,7 @@
 
   .active {
     color: var(--color-high-text);
+    /* color: yellow; */
   }
 
   .back img {
