@@ -10,7 +10,7 @@
       <detail-comment-info ref="comment" :comment-info="commentInfo"/>
       <goods-list ref="recommend" :goods="recommendList"/>
     </scroll>
-    <detail-bottom-bar></detail-bottom-bar>
+    <detail-bottom-bar @addToCart="addToCart" />
     <back-top @click.native="backClick" v-show="isShowBackTop"/>
   </div>
 </template>
@@ -88,6 +88,19 @@
         // 3. 判断 BackTop 是否显示
         // this.isShowBackTop = (-position.y) > 1000
         this.listenShowBackTop(position)
+      },
+      addToCart() {
+        // 1.获取购物车需要展示的信息
+        const product = {}
+        product.image = this.topImages[0]
+        product.title = this.goods.title
+        product.desc = this.goods.desc
+        product.price = this.goods.newPrice
+        product.iid = this.iid
+
+        // 2.将商品添加到购物车里
+        // 通过 mutations 修改 store 的数据
+        this.$store.commit('addCart', product)
       }
     },
     created() {
