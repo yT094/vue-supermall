@@ -10,6 +10,7 @@
       <detail-comment-info ref="comment" :comment-info="commentInfo"/>
       <goods-list ref="recommend" :goods="recommendList"/>
     </scroll>
+    <detail-bottom-bar></detail-bottom-bar>
   </div>
 </template>
 
@@ -21,6 +22,7 @@
   import DetailGoodsInfo from "./childComps/DetailGoodsInfo"
   import DetailParamInfo from "./childComps/DetailParamInfo"
   import DetailCommentInfo from "./childComps/DetailCommentInfo"
+  import DetailBottomBar from "./childComps/DetailBottomBar"
   
   import Scroll from "components/common/scroll/Scroll"
   import GoodsList from "components/content/goods/GoodsList"
@@ -55,6 +57,7 @@
       DetailGoodsInfo,
       DetailParamInfo,
       DetailCommentInfo,
+      DetailBottomBar,
       Scroll,
       GoodsList
     },
@@ -76,12 +79,10 @@
         for (let i = 0; i < length - 1; i++) {
           if( (this.currentIndex !== i) && (positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1]) ) {
             this.currentIndex = i
-            console.log(this.currentIndex);
+            // console.log(this.currentIndex);
             this.$refs.navbar.currentIndex = this.currentIndex
-          }
-          
+          } 
         }
-
       }
     },
     created() {
@@ -148,6 +149,8 @@
   }
 
   .content {
-    height: calc(100% - 44px)
+    /* 内容的滚动区域 */
+    background-color: #fff;
+    height: calc(100% - 44px - 49px)
   }
 </style>
