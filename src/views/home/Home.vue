@@ -35,7 +35,7 @@
   import BackTop from "components/content/backTop/BackTop"
 
   import { getHomeMultidata, getHomeGoods } from "network/home"
-  import { itemListenerMixin } from "common/mixin"
+  import { itemListenerMixin, backTopMixin } from "common/mixin"
 
   export default {
     name: "Home",
@@ -49,7 +49,7 @@
       Scroll,
       BackTop
     },
-    mixins: [itemListenerMixin],
+    mixins: [itemListenerMixin, backTopMixin],
     data() {
       return {
         banners: [],
@@ -61,7 +61,6 @@
         },
         // 缺少该变量，再 showGoods 中会报 list 无法读取的错误
         currentType: 'pop',
-        isShowBackTop: true,
         tabOffsetTop: 0,
         isTabFixed: false,
         saveY: 0
