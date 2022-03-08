@@ -86,7 +86,8 @@
         }
 
         // 3. 判断 BackTop 是否显示
-        this.isShowBackTop = (-position.y) > 1000
+        // this.isShowBackTop = (-position.y) > 1000
+        this.listenShowBackTop(position)
       }
     },
     created() {
