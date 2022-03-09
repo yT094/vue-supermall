@@ -100,7 +100,8 @@
 
         // 2.将商品添加到购物车里
         // 通过 mutations 修改 store 的数据
-        this.$store.commit('addCart', product)
+        // this.$store.commit('addCart', product)
+        this.$store.dispatch('addCart', product)
       }
     },
     created() {
