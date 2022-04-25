@@ -3,6 +3,7 @@
     <keep-alive exclude="Detail">
       <router-view/>
     </keep-alive>
+    <!-- 每个界面都会有，参考淘宝界面 -->
     <main-tab-bar/>
   </div>
 </template>
